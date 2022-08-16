@@ -97,13 +97,256 @@
       </main>
       <!-- /Main -->
 
+    <!--Hamburguesas -->
+      <section id="hamburguesas" class="mt-5 mb-5">
+        <div class="container-fluid">
+          <div class="row row-hamburguesa mb-4 p-0 ">
+            <div class="col  col-lg-6 text-uppercase p-3 text-center text-md-center text-lg-start">
+              <small class="h5 fw-bold offset-lg-2">Hamburguesa</small>
+            </div>
+          </div>
+          <div class="container">
+            <!-- Cards -->
+            <div class="row justify-content-center">
+              <div class="col-md-6 col-lg-3 col mb-4" v-for="item in dataFood[0].burger" :key="item.id">
+                <div class="card col h-100">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col text-center btn" data-bs-toggle="modal" :data-bs-target="item.idModal">
+                        <img :src="item.img" class="card-img-top card-img1 mb-2 mt-3" :alt="item.name">
+                      </div>
+                    </div>
+                  </div> 
+                  <div class="card-body text-center">
+                    <h5 class="card-title ">{{item.name}}</h5>
+                  </div>
+                  <!-- Ingresar cantidad -->
+                  <div class="container-fluid mb-2">
+                    <div class="row">
+                      <div class="col text-center">
+                        <p class="text-center fw-bold">Cantidad</p>
+                      </div>
+                      <div class="input-group mb-3">
+                        <button class="btn btn-outline " type="button" id="button-image"><img
+                            src="assets/images/menos.png" alt="" @click="cant(item,0)"></button>
+                        <input type="number" class="form-control rounded text-center" placeholder=""
+                          aria-label="Example text with button addon" aria-describedby="button-addon1"
+                          v-model="item.cant">
+                        <button class="btn btn-outline " type="button" id="button-image"><img
+                            src="assets/images/mas.png" alt="" @click="cant(item,1)"></button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /Ingresar Cantidad -->
+                  <div class="card-footer">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col text-center">
+                          <button type="button" class="btn btn-hamburger" @click="agg(item)"> Agregar</button>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- /Cards -->
+        </div>
+      </section>
+      <!-- /Hamburguesa -->
+    <!-- Hot Dogs-->
+      <section id="hot-dogs" class="mt-4 mb-2">
+        <div class="container-fluid">
+          <div class="row row-hotDogs mb-4 p-0 ">
+            <div class="col  col-lg-6 text-uppercase p-3 text-center text-md-center text-lg-start">
+              <small class="h5 fw-bold offset-lg-2">Hot Dogs</small>
+            </div>
+          </div>
+          <div class="container">
+            <!-- Cards -->
+            <div class="row justify-content-center">
+              <div class="col-md-6 col-lg-3 col mb-4" v-for="item in dataFood[0].hotDog" :key="item.id">
+                <div class="card col h-100">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col text-center btn" data-bs-toggle="modal" :data-bs-target="item.idModal">
+                        <img :src="item.img" class="card-img-top card-img1 mb-2 mt-3" :alt="item.name">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body text-center">
+                    <h5 class="card-title ">{{item.name}}</h5>
+                  </div>
+                  <!-- Ingresar cantidad -->
+                  <div class="container-fluid mb-2">
+                    <div class="row">
+                      <div class="col text-center">
+                        <p class="text-center fw-bold">Cantidad</p>
+                      </div>
+                      <div class="input-group mb-3">
+                        <button class="btn btn-outline " type="button" id="button-image"><img
+                            src="assets/images/menos.png" alt="" @click="cant(item,0)"></button>
+                        <input type="number" class="form-control rounded text-center" placeholder=""
+                          aria-label="Example text with button addon" aria-describedby="button-addon1"
+                          v-model="item.cant">
+                        <button class="btn btn-outline " type="button" id="button-image"><img
+                            src="assets/images/mas.png" alt="" @click="cant(item,1)"></button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /Ingresar Cantidad -->
+                  <div class="card-footer">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col text-center">
+                          <button type="button" class="btn btn-hotDog" @click="agg(item)"> Agregar</button>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /Cards -->
+        </div>
+      </section>
+      <!-- /Hot Dogs-->
+
       
+      <!-- Footer -->
+      <footer id="footer" class="pb-4 pt-4 bg-dark">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col text-center p-2">
+              <a href="#" class="text-center"> Bogota-Colombia</a>
+            </div>
+            <div class="col-md-1 col-2  text-center ">
+              <a href="#"><img src="assets/images/instagram.png" alt="" width="40px"></a>
+
+            </div>
+            <div class="col-md-1 col-2 text-center ">
+              <a href="https://www.facebook.com/"><img src="assets/images/facebook.png" alt="" width="40px"> </a>
+
+            </div>
+            <div class="col text-center p-2">
+              <a href="#" class="">Contáctanos: 60158897</a>
+            </div>
+
+          </div>
+        </div>
+      </footer>
+      <!--/Footer  -->
+
   </div>
 </template>
 
 <script>
 export default {
-
+  data(){
+    return{
+      dataFood: [
+      {
+        burger: [
+          {
+            idModal: "#h01",
+            id: "h01",
+            name: "Hamburguesa Mega Stacker",
+            img: "assets/food/hamburgerMegaStacker.png",
+            description:
+              "Cuenta con triple carne de res 113 gr C/U a la parrilla, queso, tocineta crujiente y deliciosa salsa stacker sobre un pan con ajonjolí",
+            price: 35000,
+            cant: 1,
+            total: 0,
+          },
+          {
+            idModal: "#h02",
+            id: "h02",
+            name: "Hamburguesa Whopper",
+            img: "assets/food/hamburgerWhopper.png",
+            description:
+              "Nuestra WHOPPER® cuenta con carne 113 gr de res a la parrilla, preparada con jugosos tomates, lechuga recién cortada, pepinillos, cebollas en rodajas y cremosa mayonesa sobre un pan con ajonjolí tostado perfectamente y ketchup ¡Pídela en COMBO con papas a la francesa y tu bebida favorita!",
+            price: 22000,
+            cant: 1,
+            total: 0,
+          },
+          {
+            idModal: "#h03",
+            id: "h03",
+            name: "Hamburguesa Xl Queso Tocineta",
+            img: "assets/food/hamburgerXlQuesoTocineta.png",
+            description:
+              "Cuenta con doble carne de res 48 gr c/u a la parrilla, jugosos tomates, lechuga recién cortada, y cremosa mayonesa sobre un pan sandwich con ajonjolí.",
+            price: 22000,
+            cant: 1,
+            total: 0,
+          },
+          {
+            idModal: "#h04",
+            id: "h04",
+            name: "Hamburguesa XT BBQ",
+            img: "assets/food/hamburgerXTBQQ.png",
+            description:
+              "Cuenta con una carne de res a la parrilla de 198 gr, queso, lechuga, tomates, cebolla crujiente, salsa BBQ y cremosa mayonesa sobre un pan esponjoso de maíz.",
+            price: 32000,
+            cant: 1,
+            total: 0,
+          },
+        ],
+        hotDog: [
+          {
+            idModal: "#hd01",
+            id: "hd01",
+            name: "Hot Dog Americano",
+            img: "assets/food/HotDogAmericano.jpg",
+            description:
+              "Bacon ahumado, doble queso, pepinillos, cebolla crunch, salsa de tomate y mostaza. Salchicha suiza, tocineta",
+            price: 18000,
+            cant: 1,
+            total: 0,
+          },
+          {
+            idModal: "#hd02",
+            id: "hd02",
+            name: "Hot Dog Argentino",
+            img: "assets/food/HotDogArgentino.jpg",
+            description:
+              "Queso cervecero, pimentones asados, chimichurri y chorizo artesanal.",
+            price: 19000,
+            cant: 1,
+            total: 0,
+          },
+          {
+            idModal: "#hd03",
+            id: "hd03",
+            name: "Hot Dog Azul",
+            img: "assets/food/HotDogAzul.jpg",
+            description:
+              "Queso roquefort, tomates rostizados, rugula, hongos, salchicha alemana.",
+            price: 18000,
+            cant: 1,
+            total: 0,
+          },
+          {
+            idModal: "#hd04",
+            id: "hd04",
+            name: "Hot Dog Borracho",
+            img: "assets/food/HotDogBorracho.jpg",
+            description:
+              "Demiglace de Buchanan’s , cebollas caramelizadas con cerveza a8tesanal, queso cheddar y tocineta ahumada, Salchicha suiza,tocineta.",
+            price: 19000,
+            cant: 1,
+            total: 0,
+          },
+        ],
+      },
+    ], // Datos comida
+    }
+  }
 }
 </script>
 
