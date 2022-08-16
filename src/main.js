@@ -6,7 +6,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "@/css/styles.css" 
+import "../src/css/styles.css" 
 
 createApp(App)
   .use(store)
