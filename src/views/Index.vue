@@ -246,9 +246,11 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data(){
     return{
+      dataProd: [],
       dataFood: [
       {
         burger: [
@@ -346,6 +348,24 @@ export default {
       },
     ], // Datos comida
     }
+  },
+  methods: {
+    async listProd() {
+      const url = "https://fast-food-bknd.herokuapp.com/api/v1/products";
+      await axios
+        .get(url)
+        .then((response) => {
+          const data = response.data.products;
+          this.dataProd = data;
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  mounted() {
+    this.listProd();
   }
 }
 </script>
