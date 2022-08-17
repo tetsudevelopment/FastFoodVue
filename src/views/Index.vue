@@ -131,7 +131,7 @@
                             src="assets/images/menos.png" alt="" @click="cant(item,0)"></button>
                         <input type="number" class="form-control rounded text-center" placeholder=""
                           aria-label="Example text with button addon" aria-describedby="button-addon1"
-                          v-model="item.cant">
+                          v-model="item.quantityUser">
                         <button class="btn btn-outline " type="button" id="button-image"><img
                             src="assets/images/mas.png" alt="" @click="cant(item,1)"></button>
                       </div>
@@ -192,7 +192,7 @@
                             src="assets/images/menos.png" alt="" @click="cant(item,0)"></button>
                         <input type="number" class="form-control rounded text-center" placeholder=""
                           aria-label="Example text with button addon" aria-describedby="button-addon1"
-                          v-model="item.cant">
+                          v-model="item.quantityUser">
                         <button class="btn btn-outline " type="button" id="button-image"><img
                             src="assets/images/mas.png" alt="" @click="cant(item,1)"></button>
                       </div>
@@ -285,7 +285,7 @@
                                   src="assets/images/menos.png" alt="" @click="cant(item,0)"></button>
                               <input type="number" class="form-control rounded text-center" placeholder=""
                                 aria-label="Example text with button addon" aria-describedby="button-addon1"
-                                v-model="item.cant">
+                                v-model="item.quantityUser">
                               <button class="btn btn-outline " type="button" id="button-image"><img
                                   src="assets/images/mas.png" alt="" @click="cant(item,1)"></button>
                             </div>
@@ -359,7 +359,7 @@
                                   src="assets/images/menos.png" alt="" @click="cant(item,0)"></button>
                               <input type="number" class="form-control rounded text-center" placeholder=""
                                 aria-label="Example text with button addon" aria-describedby="button-addon1"
-                                v-model="item.cant">
+                                v-model="item.quantityUser">
                               <button class="btn btn-outline " type="button" id="button-image"><img
                                   src="assets/images/mas.png" alt="" @click="cant(item,1)"></button>
                             </div>
@@ -421,7 +421,7 @@ export default {
                 ...prod,
                 idModal: `#hb${prod.id}`,
                 idUser:`hb${prod.id}`,
-                quantityUser:0
+                quantityUser:1
 
               }
               burger.push(hb)
@@ -430,7 +430,7 @@ export default {
                 ...prod,
                 idModal: `#hd${prod.id}`,
                 idUser:`hd${prod.id}`,
-                quantityUser:0
+                quantityUser:1
               }
               hot.push(hd)
             }
@@ -440,6 +440,18 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    cant(item, value) {
+      if (value == 0) {
+        if (item.quantityUser > 0) {
+          item.quantityUser--;
+        } else {
+          console.log("Seleccione uno ole");
+          return (item.quantityUser = 0);
+        }
+      } else {
+        item.quantityUser++;
+      }
     },
   },
   mounted() {
