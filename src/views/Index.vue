@@ -392,6 +392,63 @@
       </section>
       <!-- /Perros calientes -->
 
+      <!-- Carrito de compras -->
+      <div class="modal fade" id="carrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Carrito de compras</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Cant</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio U</th>
+                    <th scope="col">Precio Total</th>
+                  </tr>
+                </thead>
+                <tbody v-if="dataTable.length>0">
+                  <tr v-for="(item, index) in dataTable" :key="item.id"> 
+                    <th><img :src="item.img" :alt="item.name" style="height: 50px; width: 50px;"></th>
+                    <th scope="row">{{item.quantityUser}}</th>
+                    <td>{{item.name}}</td>
+                    <td>${{item.price}}</td>
+                    <td>${{item.total=item.quantityUser*item.price}}</td>
+                    <td class="border"><button class="btn btn-danger" @click="deleteProduct(index)"
+                        type="button">Eliminar</button></td>
+                  </tr>
+                  <tr>
+                    <th class="text-center">Total</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>${{totall}}</td>
+                  </tr>
+                </tbody>
+                <tbody v-else>
+                  <td>hay productos agregados al carrito</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tbody>
+              </table>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cancel">Cancela</button>
+                <button type="button" class="btn btn-primary" @click="buy" v-if="dataTable.length===0">Comprar</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pagos" v-else>Comprar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Carrito de compras -->
+
   </div>
 </template>
 
@@ -400,6 +457,7 @@ import axios from "axios";
 export default {
   data(){
     return{
+    dataTable:[],
     dataProd: [], // Datos comida
     dataFood:[{burger:[],hot:[],}]
     }
@@ -452,6 +510,32 @@ export default {
       } else {
         item.quantityUser++;
       }
+    },
+    agg(item) {
+      if (item.cant == 0) {
+        return alert("Seleccioné la cantidad que desea comprar");
+      } else if (this.dataTable.length === 0) {
+        console.log("Entro en el else-if");
+        this.dataTable.push(item);
+      } else {
+        let index = this.dataTable.indexOf(item);
+        if (index === -1) {
+          this.dataTable.push(item);
+        } else {
+          this.dataTable.forEach((element) => {
+            if (element.id === item.id) {
+              console.log("Entro en el if");
+              let index = this.dataTable.indexOf(element);
+              this.dataTable[index].element.cant = item.cant;
+            }
+          });
+        }
+      }
+      this.cantidad = this.dataTable.length;
+    },
+    deleteProduct(index) {
+      this.dataTable.splice(index, 1);
+      this.cantidad = this.dataTable.length;
     },
   },
   mounted() {
