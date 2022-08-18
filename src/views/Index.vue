@@ -128,7 +128,7 @@
                       </div>
                       <div class="input-group mb-3">
                         <button class="btn btn-outline " type="button" id="button-image"><img
-                            src="assets/images/menos.png" alt="" @click="cant(item,0)"></button>
+                            src="assets/images/menos.png" alt="" @click="cant(item,0)"></button> 
                         <input type="number" class="form-control rounded text-center" placeholder=""
                           aria-label="Example text with button addon" aria-describedby="button-addon1"
                           v-model="item.quantityUser">
@@ -393,61 +393,110 @@
       <!-- /Perros calientes -->
 
       <!-- Carrito de compras -->
-      <div class="modal fade" id="carrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Carrito de compras</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Cant</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Precio U</th>
-                    <th scope="col">Precio Total</th>
-                  </tr>
-                </thead>
-                <tbody v-if="dataTable.length>0">
-                  <tr v-for="(item, index) in dataTable" :key="item.id"> 
-                    <th><img :src="item.img" :alt="item.name" style="height: 50px; width: 50px;"></th>
-                    <th scope="row">{{item.quantityUser}}</th>
-                    <td>{{item.name}}</td>
-                    <td>${{item.price}}</td>
-                    <td>${{item.total=item.quantityUser*item.price}}</td>
-                    <td class="border"><button class="btn btn-danger" @click="deleteProduct(index)"
-                        type="button">Eliminar</button></td>
-                  </tr>
-                  <tr>
-                    <th class="text-center">Total</th>
+      <section class="container">
+          <div class="modal fade" id="carrito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Carrito de compras</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Producto</th>
+                      <th scope="col">Cant</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Precio U</th>
+                      <th scope="col">Precio Total</th>
+                    </tr>
+                  </thead>
+                  <tbody v-if="dataTable.length>0">
+                    <tr v-for="(item, index) in dataTable" :key="item.id"> 
+                      <th><img :src="item.img" :alt="item.name" style="height: 50px; width: 50px;"></th>
+                      <th scope="row">{{item.quantityUser}}</th> 
+                      <td>{{item.name}}</td>
+                      <td>${{item.price}}</td>
+                      <td>${{item.total=item.quantityUser*item.price}}</td>
+                      <td class="border"><button class="btn btn-danger" @click="deleteProduct(index)"
+                          type="button"><i class="bi bi-trash3-fill"></i></button></td>
+                    </tr>
+                    <tr>
+                      <th class="text-center">Total</th>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>${{totall}}</td>
+                    </tr>
+                  </tbody>
+                  <tbody v-else>
+                    <td>hay productos agregados al carrito</td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>${{totall}}</td>
-                  </tr>
-                </tbody>
-                <tbody v-else>
-                  <td>hay productos agregados al carrito</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tbody>
-              </table>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cancel">Cancela</button>
-                <button type="button" class="btn btn-primary" @click="buy" v-if="dataTable.length===0">Comprar</button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pagos" v-else>Comprar</button>
+                    <td></td>
+                    <td></td>
+                  </tbody>
+                </table>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cancel">Cancela</button>
+                  <button type="button" class="btn btn-primary" @click="buy" v-if="dataTable.length==0">Comprar</button>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pagos" v-else>Comprar</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
       <!-- /Carrito de compras -->
+
+      <!-- Comprar -->
+      <div class="modal fade" id="pagos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Metodos de pago</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="d-flex justify-content-center mt-3">
+                <div class="col-1 d-flex align-items-center ">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1"
+                    v-model="pago">
+                </div>
+                <div class="col-4 align-items-end">
+                  <img src="assets/images/nequi.svg" alt="" style="width: 200px; height: 50px;" class="align-items-end">
+                </div>
+              </div>
+              <div class="d-flex justify-content-center mt-3">
+                <div class="col-1 d-flex align-items-center ">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="2"
+                    v-model="pago">
+                </div>
+                <div class="col-4 align-items-end">
+                  <img src="assets/images/mastercard.svg" alt="" style="width: 200px; height: 50px;" class="align-items-end">
+                </div>
+              </div>
+              <div class="d-flex justify-content-center mt-3">
+                <div class="col-1 d-flex align-items-center ">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="3"
+                    v-model="pago">
+                </div>
+                <div class="col-4 align-items-end">
+                  <img src="assets/images/efectivo.svg" alt="" style="width: 200px; height: 50px;" class="align-items-end">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancelar</button>
+              <button type="button" class="btn btn-danger" @click="toBuy" v-if="pago==0">Pagar</button>
+              <button type="button" class="btn btn-danger" @click="toBuy" data-bs-dismiss="modal" v-else>Pagar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Comprar -->
 
   </div>
 </template>
@@ -459,7 +508,8 @@ export default {
     return{
     dataTable:[],
     dataProd: [], // Datos comida
-    dataFood:[{burger:[],hot:[],}]
+    dataFood:[{burger:[],hot:[],}],
+    cantidad:0,
     }
   },
   methods: {
@@ -499,43 +549,64 @@ export default {
           console.log(error);
         });
     },
-    cant(item, value) {
+    cant(item, value) { 
       if (value == 0) {
         if (item.quantityUser > 0) {
           item.quantityUser--;
         } else {
           console.log("Seleccione uno ole");
-          return (item.quantityUser = 0);
+          item.quantityUser = 0
         }
-      } else {
+      }else if(value ==1){
         item.quantityUser++;
-      }
+      }     
     },
-    agg(item) {
-      if (item.cant == 0) {
-        return alert("Seleccioné la cantidad que desea comprar");
-      } else if (this.dataTable.length === 0) {
-        console.log("Entro en el else-if");
-        this.dataTable.push(item);
-      } else {
-        let index = this.dataTable.indexOf(item);
-        if (index === -1) {
-          this.dataTable.push(item);
-        } else {
-          this.dataTable.forEach((element) => {
-            if (element.id === item.id) {
-              console.log("Entro en el if");
-              let index = this.dataTable.indexOf(element);
-              this.dataTable[index].element.cant = item.cant;
+    agg(item) {   
+      let items ={...item} 
+      if(this.dataTable.length==0){
+        this.dataTable.push(items)
+      }else{
+        let index = this.dataTable.findIndex(e=> {
+            let id = e.id
+            if(id ==items.id){
+              return e
             }
-          });
-        }
+          })
+          if (index==-1){
+            this.dataTable.push(items)
+      }else{
+        this.dataTable[index].quantityUser = items.quantityUser
+      }
       }
       this.cantidad = this.dataTable.length;
     },
     deleteProduct(index) {
       this.dataTable.splice(index, 1);
       this.cantidad = this.dataTable.length;
+    },
+    buy() {
+      alert("No tiene productos que comprar");
+    },
+    toBuy() {
+      if (this.pago == 0) {
+        alert('Seleccione un metodo de pago')
+      }else if (this.dataTable.length > 0) {
+        this.pedido++;
+        this.dataEmployee.push({
+          idModal: `#pedido${this.pedido}`,
+          id: `pedido${this.pedido}`,
+          pedido: this.pedido,
+          status: "Preparando",
+          total: this.total,
+          producto: this.dataTable,
+        });
+        this.total = 0;
+        this.dataTable = [];
+        this.cantidad = this.dataTable.length;
+        alert('Su compra a sido satisfactoria')
+      } else {
+        console.log('Error');
+      }
     },
   },
   mounted() {
@@ -545,5 +616,5 @@ export default {
 </script>
 
 <style>
-
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
 </style>
