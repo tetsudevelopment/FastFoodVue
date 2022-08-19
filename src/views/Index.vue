@@ -96,6 +96,9 @@
         <!-- /Carusel -->
       </main>
       <!-- /Main -->
+      <section>
+        <button type="button" class="btn btn-primary" @click="prueba"></button>
+      </section>
 
     <!--Hamburguesas -->
       <section id="hamburguesas" class="mt-5 mb-5">
@@ -440,7 +443,7 @@
                   </tbody>
                 </table>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="cancel">Cancela</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="toBuy(2)">Cancelar</button>
                   <button type="button" class="btn btn-primary" @click="buy" v-if="dataTable.length==0">Comprar</button>
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pagos" v-else>Comprar</button>
                 </div>
@@ -491,7 +494,7 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancelar</button>
               <button type="button" class="btn btn-danger" @click="toBuy" v-if="pago==0">Pagar</button>
-              <button type="button" class="btn btn-danger" @click="toBuy" data-bs-dismiss="modal" v-else>Pagar</button>
+              <button type="button" class="btn btn-danger" @click="toBuy(1)" data-bs-dismiss="modal" v-else>Pagar</button>
             </div>
           </div>
         </div>
@@ -510,6 +513,9 @@ export default {
     dataProd: [], // Datos comida
     dataFood:[{burger:[],hot:[],}],
     cantidad:0,
+    pago:0,
+    total:0,
+    quantityUser:0,
     }
   },
   methods: {
@@ -518,7 +524,6 @@ export default {
       await axios
         .get(url)
         .then((response) => {
-          // console.log(response.data.products);
           const data = response.data.products;
           this.dataProd = data;
           this.dataProd.map(prod=>{
@@ -585,33 +590,72 @@ export default {
       this.cantidad = this.dataTable.length;
     },
     buy() {
-      alert("No tiene productos que comprar");
+      this.message("No tiene productos que comprar",'error');
     },
-    toBuy() {
-      if (this.pago == 0) {
-        alert('Seleccione un metodo de pago')
+    prueba(){
+       
+    },
+    message(msj, icono) {
+      this.$swal.fire({
+        position: 'top-center',
+        icon: icono,
+        title: msj,
+        showConfirmButton: false,
+        timer: 2000
+      })
+
+    },
+    async toBuy(num) {
+      let url = `https://fast-food-bknd.herokuapp.com/api/v1/order`
+      let date= new Date()
+      let dateNew =date.toISOString().split('T')[0]
+      let products = this.dataTable.map((element)=>{
+        return {
+          "id_product": element.id,
+          "quantity": element.quantityUser,
+          "price": element.price
+        }
+      })
+      let data= {
+        "quantity": this.quantityUser, //cantidad
+        "price": this.total, //precio total de los productos
+        "date": dateNew, //fecha de creacion
+        "state_id": num, //1 pagado - 2 cancelado 
+        "products":products
+      };
+      // console.log(data);
+      if (this.num==1) {
+        if (this.pago== 0) alert('Seleccione un metodo de pago')
       }else if (this.dataTable.length > 0) {
-        this.pedido++;
-        this.dataEmployee.push({
-          idModal: `#pedido${this.pedido}`,
-          id: `pedido${this.pedido}`,
-          pedido: this.pedido,
-          status: "Preparando",
-          total: this.total,
-          producto: this.dataTable,
-        });
+        await axios 
+        .post(url,data)
+        .then(console.log)
+        .catch(console.log)
         this.total = 0;
         this.dataTable = [];
         this.cantidad = this.dataTable.length;
-        alert('Su compra a sido satisfactoria')
-      } else {
-        console.log('Error');
+        this.pago=0;
+        num ==1 ?this.message('Su compra a sido satisfactoria','success'): this.message('Su compra a sido cancelada','error')
+        
+      }else{
+        console.log('error');
       }
     },
   },
-  mounted() {
-    this.listProd();
-  }
+  created() {
+    this.listProd(); 
+  },
+  computed: {
+    totall() {
+      this.total=0
+      this.quantityUser=0
+      this.dataTable.forEach((element) => {
+        this.total += element.total;
+        this.quantityUser += element.quantityUser
+      });
+      return (this.total);
+    }
+  },
 }
 </script>
 
